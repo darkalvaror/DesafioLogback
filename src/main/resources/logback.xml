@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+	<!-- Definir la variable para mostrar la fecha -->
+	<timestamp key="logDate" datePattern="dd-MM-yyyy"></timestamp>
+	
+	<!-- Variable con el nombre del archivo -->
+	<property name="NOMBRE_VAR" value="elb1ARR" />
+	
+	<!-- Definimos el apender -->
+	<appender name="DesafioLogBack" class="ch.qos.logback.core.rolling.RollingFileAppender">
+
+		<!-- Nombre del fichero donde desemboca la tubería -->
+		<file>C://dev//logs//${NOMBRE_VAR}-${logDate}.log </file>
+
+		<!-- Política con la que gestionar el fichero -->
+		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+			<fileNamePattern>C://dev//logs//everisLogFile-${logDate}.archivo%i.zip</fileNamePattern>
+
+			<!-- Establecer cantidad de ficheros mínimos y máximos -->
+			<minIndex>1</minIndex>
+			<maxIndex>3</maxIndex>
+		</rollingPolicy>
+
+		<!-- Establecer restricción -->
+		<triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+
+			<!-- Tamaño máximo del archivo para crear uno nuevo -->
+			<maxFileSize>50KB</maxFileSize>
+		</triggeringPolicy>
+
+		<!-- Establecer el formato de como se muestra el fichero -->
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - [%method] - %msg%n</pattern>
+		</encoder>
+	</appender>
+	
+	<!-- Esto es adicional, si quiere el documento con todas las trazas, de forma normal, elimine el appender entero siguiente -->
+	<appender name="DesafioLogBack2" class="ch.qos.logback.core.ConsoleAppender">
+	
+		<encoder>
+			<pattern>%d{​​HH:mm:ss.SSS}​​ [%thread] %-5level %logger{​​36}​​ - %msg%n</pattern>
+		</encoder>
+		 
+	</appender>
+
+
+	<!-- Logger root -->
+	<root level="trace">
+		<appender-ref ref="DesafioLogBack"/>
+	</root>
+	
+	<!-- Esto es adicional, si quiere el documento con todas las trazas, de forma normal, elimine los loggers siguientes -->
+	
+	<!-- Logger hijo de root -->
+	<logger name="com.everis" level="debug" additivity="true">
+		<appender-ref ref="DesafioLogBack2" />
+	</logger>
+	 
+	<!-- Logger hijo de root -->
+	<logger name="com.everis.DesafioLogBack" level="warn" additivity="true">
+		<appender-ref ref="DesafioLogBack2" />
+	</logger>
+
+</configuration>
